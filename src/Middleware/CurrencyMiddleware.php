@@ -49,7 +49,7 @@ class CurrencyMiddleware
         }
 
         // Get currency from session
-        $currency = $request->getSession()->get('currency');
+        $currency = $request->getSession() ? $request->getSession()->get('currency') : null;
         if ($currency && currency()->isActive($currency) === true) {
             return $currency;
         }
@@ -93,7 +93,9 @@ class CurrencyMiddleware
         currency()->setUserCurrency($currency);
 
         // Save it for later too!
-        $request->getSession()->put(['currency' => $currency]);
+        if($request->getSession()) {
+            $request->getSession()->put(['currency' => $currency]);
+        }
 
         return $currency;
     }
