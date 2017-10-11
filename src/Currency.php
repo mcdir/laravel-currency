@@ -59,6 +59,7 @@ class Currency
     {
         $this->config = $config;
         $this->cache = $cache->store($this->config('cache_driver'));
+        //$this->currencies = include(__DIR__ . '/../../resources/currencies.php');
     }
 
     /**
@@ -237,6 +238,9 @@ class Currency
                     return $this->getDriver()->all();
                 });
             }
+        }
+        if (!$this->currencies_cache) {
+            $this->currencies_cache = include(__DIR__ . '/../resources/currencies.php');
         }
 
         return $this->currencies_cache;
